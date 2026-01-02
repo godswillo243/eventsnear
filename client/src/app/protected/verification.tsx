@@ -14,7 +14,7 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useEffect, useState } from "react";
 
 const Verification = () => {
-  const [counter, setCounter] = useState(0);
+  const [_counter, setCounter] = useState(0);
 
   const handleResendCode = async () => {
     try {
