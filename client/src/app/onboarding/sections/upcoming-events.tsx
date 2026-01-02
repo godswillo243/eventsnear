@@ -14,7 +14,7 @@ const UpcomingEvents = () => {
           </p>
         </div>
         <div className="flex gap-6 overflow-x-auto flex-wrap">
-          {events.map((event, i) => (
+          {events.map((event) => (
             <div
               className="rounded-md hover:shadow-md w-56 flex flex-col"
               key={event.id}
