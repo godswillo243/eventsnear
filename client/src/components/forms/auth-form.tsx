@@ -48,7 +48,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     setIsPending(true);
     try {
       if (isSignIn) {
-        const user = await signInUser(values.email, values.password);
+        await signInUser(values.email, values.password);
       } else if (mode === "sign-up") {
         const user = await createUser(values.email, values.password);
         const idToken = await user.getIdToken();

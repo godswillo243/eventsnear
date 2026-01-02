@@ -8,10 +8,10 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user } = useAuthStore();
 
-  // if (!user) {
-  //   console.log("User not authenticated, redirecting to sign-in.");
-  //   return <Navigate to={"/sign-in"} />;
-  // }
+  if (!user) {
+    console.log("User not authenticated, redirecting to sign-in.");
+    return <Navigate to={"/sign-in"} />;
+  }
   return <>{children}</>;
 };
 
