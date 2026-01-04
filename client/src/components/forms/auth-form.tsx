@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInDefaultValues, signUpDefaultValues } from "@/constants";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createUser, signInUser } from "@/actions/auth.actions";
 import apiClient from "@/api/client";
 import { useState } from "react";
@@ -42,8 +42,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
-  const navigate = useNavigate();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsPending(true);

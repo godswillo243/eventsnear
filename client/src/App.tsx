@@ -8,7 +8,6 @@ import { auth } from "./lib/firebase";
 import { getIdToken } from "./actions/auth.actions";
 import apiClient from "./api/client";
 import { useAuthStore } from "./store/auth-store";
-import Verification from "./app/protected/verification";
 import Events from "./app/protected/events";
 import ProtectedRoute from "./providers/protected-route";
 import ProtectedLayout from "./app/protected/layout";
