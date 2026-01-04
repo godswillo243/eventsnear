@@ -2,28 +2,32 @@ import Navbar from "@/components/shared/navbar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
+
 import { auth } from "@/lib/firebase";
+import { useAuthStore } from "@/store/auth-store";
 import { sendEmailVerification } from "firebase/auth";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
+
 import { useEffect, useState } from "react";
 
 const Verification = () => {
   const [_counter, setCounter] = useState(0);
+  const [error, setError] = useState("");
 
   const handleResendCode = async () => {
     try {
       const user = auth.currentUser;
+      console.log("Authenticated user data:", user);
       if (!user) return;
       await sendEmailVerification(user);
       setCounter(60);
     } catch (error) {
       console.log(error);
+      setError("Error sending verification email");
     }
   };
 
@@ -33,43 +37,30 @@ const Verification = () => {
     <main className="relative min-h-dvh w-full bg-muted">
       <Navbar />
       <div className="flex flex-col items-center justify-center p-4">
-        <Card className="w-full max-w-sm">
+        <Card className="w-full max-w-sm px-2">
           <CardHeader>
-            <CardTitle>Verify your email address</CardTitle>
-            <CardDescription>
-              Enter the verification code sent your email.
-            </CardDescription>
+            <CardTitle className="text-center h5-bold">
+              Verify your email address
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <form className="w-full max-w-sm space-y-4">
-              <div className="w-full flex items-center justify-center">
-                <InputOTP
-                  maxLength={6}
-                  className="flex items-center gap-8"
-                  pattern={REGEXP_ONLY_DIGITS}
-                >
-                  {[0, 1, 2, 3, 4, 5].map((key) => (
-                    <InputOTPSlot
-                      index={key}
-                      key={key}
-                      className="rounded-md! p-medium-18! size-10 bg-muted border-2 border-muted-foreground"
-                    />
-                  ))}
-                </InputOTP>
-              </div>
-              <div className="p-2 flex items-center flex-col gap-2 w-full">
-                <Button className="w-full">Submit</Button>
-                <Button
-                  variant={"link"}
-                  type="button"
-                  className="w-full"
-                  onClick={() => handleResendCode()}
-                >
-                  Resend code
-                </Button>
-              </div>
-            </form>
+          <CardContent className="space-y-4">
+            <p className="p-regular-16 text-neutral-800 text-center ">
+              Click the link on your email{" "}
+              {auth.currentUser?.email ?? useAuthStore().user?.email} to verifiy
+              your account
+            </p>
+            <p className="p-regular-14 text-muted-foreground">
+              Check your spam if you did not see the email.
+            </p>
           </CardContent>
+          <CardAction>
+            <Button variant={"link"} onClick={() => handleResendCode()}>
+              Resend email
+            </Button>
+          </CardAction>
+          <div>
+            <p className="p-medium-14">{error}</p>
+          </div>
         </Card>
       </div>
     </main>

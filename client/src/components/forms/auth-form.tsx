@@ -20,6 +20,7 @@ import { useState } from "react";
 import { parseFirebaseSignUpError } from "@/lib/utils";
 import { sendEmailVerification } from "firebase/auth";
 import { LucideLoader2 } from "lucide-react";
+import { auth } from "@/lib/firebase";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -52,6 +53,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       } else if (mode === "sign-up") {
         const user = await createUser(values.email, values.password);
         const idToken = await user.getIdToken();
+        await auth.updateCurrentUser({ ...user, displayName: values.name! });
         await apiClient.post(
           "/users/create",
           {
@@ -62,7 +64,6 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           { headers: { Authorization: `Bearer ${idToken}` } }
         );
         await sendEmailVerification(user);
-        navigate("/verification");
       }
     } catch (error) {
       setError(

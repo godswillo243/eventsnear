@@ -13,6 +13,7 @@ import Events from "./app/protected/events";
 import ProtectedRoute from "./providers/protected-route";
 import ProtectedLayout from "./app/protected/layout";
 import Profile from "./app/protected/profile";
+import VerifyEmail from "./app/protected/verify-email";
 
 const App = () => {
   useEffect(() => {
@@ -50,10 +51,10 @@ const App = () => {
         <Route path="/profile" element={<Profile />}></Route>
       </Route>
       <Route
-        path="/verification"
+        path="/verify-email"
         element={
           <ProtectedRoute>
-            <Verification />
+            <VerifyEmail />
           </ProtectedRoute>
         }
       />
